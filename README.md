@@ -10,9 +10,9 @@
 
 ## Running the code
 
-### For each Assignment or Project, you will need all files in the folder to get the scene to render. Clone the entire repository, or download files one by one, but make sure you have all files for each Assignment scene you want to view. 
+#### For each Assignment or Project, you will need all files in the folder to get the scene to render. Clone the entire repository, or download files one by one, but make sure you have all files for each Assignment scene you want to view. 
 
-### The JavaScript code in Assignments and Project requires running on a server, as it loads an object from local files. Below are the simplest ways to run the code (assuming you cloned the repository)
+#### The JavaScript code in Assignments and Project requires running on a server, as it loads an object from local files. Below are the simplest ways to run the code (assuming you cloned the repository)
 
    1) Using Visual Studio Code, install [Live Server Extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) then open the `.html` file you want to view and run the extension. Atom and other code editors have their own extension for hosting a local sever.
 
