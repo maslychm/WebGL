@@ -155,7 +155,7 @@ function createGUI() {
     
     guiController.add(guiObject,"geometry",["WebCam","nothing"])
     .name("Geometry")
-    .onChange( function(param){
+    .onChange(function(param){
         switch(param){
             case "WebCam" :
                 console.log("Set this object: " ,camObject);
