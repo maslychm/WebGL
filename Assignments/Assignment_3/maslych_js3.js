@@ -179,7 +179,7 @@ function createGUI() {
 
     let yRotationFolder = guiController.addFolder("Rotation");
     yRotationFolder.add(guiObject.yRotation, "degrees")
-    .min(0).max(360).step(10)
+    .min(0).max(360).step(1)
     .onChange(function(val){
         console.log("Rotated to " + val + " degrees");
         camObject.rotation.y = THREE.Math.degToRad(val);
