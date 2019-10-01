@@ -47,7 +47,6 @@ function loadCameraModel() {
 
             // Set gloabl camModel object
             camObject = obj;
-            // console.log(camObject);
 
             // CREATE GUI ONCE OBJECT LOADED
             createGUI();
@@ -57,7 +56,8 @@ function loadCameraModel() {
         function ( xhr ) {
             if ( xhr.lengthComputable ) {
                 var percentComplete = xhr.loaded / xhr.total * 100;
-                console.log( 'model ' + Math.round( percentComplete, 2 ) + '% downloaded' );
+                console.log( 'model ' + Math.round(
+                    percentComplete, 2) + '% downloaded');
             }
         });
 }
@@ -120,17 +120,28 @@ function createGUI() {
 
     console.log(camObject);
 
+    // Defines starting values for dat.GUI object
     let guiObject = {
         geometry : "WebCam",
-        light : {
+        keyLight : {
             visible : true,
             intensity : keyLight.intensity,
             color: "#" + keyLight.color.getHexString(),
         },
+        fillLight : {
+            visible : true,
+            intensity : fillLight.intensity,
+            color: "#" + fillLight.color.getHexString(),
+        },
+        backLight : {
+            visible : true,
+            intensity : backLight.intensity,
+            color: "#" + backLight.color.getHexString(),
+        },
         scaling : {
             size : camObject.scale.x
         },
-        rotation : {
+        yRotation : {
             degrees : camObject.rotation.y
         },
         translation : {
@@ -166,8 +177,8 @@ function createGUI() {
         render();
     });
 
-    let rotationFolder = guiController.addFolder("Rotation");
-    rotationFolder.add(guiObject.rotation, "degrees")
+    let yRotationFolder = guiController.addFolder("Rotation");
+    yRotationFolder.add(guiObject.yRotation, "degrees")
     .min(0).max(360).step(10)
     .onChange(function(val){
         console.log("Rotated to " + val + " degrees");
@@ -215,7 +226,7 @@ function createGUI() {
     });
 
     let keyLightFolder = guiController.addFolder("KeyLight");
-    keyLightFolder.add(guiObject.light,"visible")
+    keyLightFolder.add(guiObject.keyLight,"visible")
     .name("switchOn")
     .onChange(function(flag){
         console.log("Keylight is "+ (flag?"on":"off"));
@@ -223,7 +234,8 @@ function createGUI() {
         render();
     });
     
-    keyLightFolder.add(guiObject.light,"intensity").min(0).max(1).step(0.1)
+    keyLightFolder.add(guiObject.keyLight,"intensity")
+    .min(0).max(1).step(0.1)
     .name("Intensity")
     .onChange(function(val){
         console.log("Intensity: "+ val);
@@ -231,7 +243,7 @@ function createGUI() {
         render();
     });
     
-    keyLightFolder.addColor(guiObject.light,"color")
+    keyLightFolder.addColor(guiObject.keyLight,"color")
     .name("Color")
     .onChange(function(hexstring){
         console.log("Key Color "+ hexstring);
@@ -241,7 +253,7 @@ function createGUI() {
     keyLightFolder.close();
 
     let fillLightFolder = guiController.addFolder("FillLight");
-    fillLightFolder.add(guiObject.light,"visible")
+    fillLightFolder.add(guiObject.fillLight,"visible")
     .name("switchOn")
     .onChange(function(flag){
         console.log("FIllLight is " + (flag?"on":"off"));
@@ -249,7 +261,8 @@ function createGUI() {
         render();
     })
 
-    fillLightFolder.add(guiObject.light,"intensity").min(0).max(1).step(0.1)
+    fillLightFolder.add(guiObject.fillLight,"intensity")
+    .min(0).max(1).step(0.1)
     .name("Intensity")
     .onChange(function(val){
         console.log("Intensity: " + val);
@@ -257,7 +270,7 @@ function createGUI() {
         render();
     });
 
-    fillLightFolder.addColor(guiObject.light,"color")
+    fillLightFolder.addColor(guiObject.fillLight,"color")
     .name("Color")
     .onChange(function(hexstring){
         console.log("Fill Color " + hexstring);
@@ -266,7 +279,7 @@ function createGUI() {
     });
 
     let backLightFolder = guiController.addFolder("BackLight");
-    backLightFolder.add(guiObject.light,"visible")
+    backLightFolder.add(guiObject.backLight,"visible")
     .name("switchOn")
     .onChange(function(flag){
         console.log("BackLight is " + (flag?"on":"off"));
@@ -274,7 +287,8 @@ function createGUI() {
         render();
     })
 
-    backLightFolder.add(guiObject.light,"intensity").min(0).max(1).step(0.1)
+    backLightFolder.add(guiObject.backLight,"intensity")
+    .min(0).max(1).step(0.1)
     .name("Intensity")
     .onChange(function(val){
         console.log("Intensity: " + val);
@@ -282,7 +296,7 @@ function createGUI() {
         render();
     });
 
-    backLightFolder.addColor(guiObject.light,"color")
+    backLightFolder.addColor(guiObject.backLight,"color")
     .name("Color")
     .onChange(function(hexstring){
         console.log("Back Color " + hexstring);
