@@ -31,28 +31,32 @@ function initScene() {
 
     initCamera();
     loadCameraModel();
+    // createGUI();
     initLight();
 }
 
 function loadCameraModel() {
     var loader = new THREE.OBJLoader();
     
+    var callBackOnLoad = function ( obj ) {
+        console.log(obj.detail);
+        obj.scale.set(.25,.25,.25);
+        obj.name = "cam";
+        scene.add(obj);
+
+        // Set gloabl camModel object
+        camObject = obj;
+
+        // CREATE GUI ONCE OBJECT LOADED
+        createGUI();
+
+        render();
+    }
+
     loader.setPath("./");
     loader.load( 
         "cam.obj",
-        function ( obj ) {
-            obj.scale.set(.25,.25,.25);
-            obj.name = "cam";
-            scene.add(obj);
-
-            // Set gloabl camModel object
-            camObject = obj;
-
-            // CREATE GUI ONCE OBJECT LOADED
-            createGUI();
-
-            render();
-        }, 
+        callBackOnLoad, 
         function ( xhr ) {
             if ( xhr.lengthComputable ) {
                 var percentComplete = xhr.loaded / xhr.total * 100;
