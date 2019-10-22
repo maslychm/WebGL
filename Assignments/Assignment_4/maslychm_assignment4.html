@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8" />
+	<title>Assignment 4: Honest Fox</title>
+</head>
+<body>
+	<h1 align="center">Assignment 4: Mykola Maslych</h1>
+	
+	<!-- Vertex Shader -->
+	<script type="x-shader/x-vertex" id="vertexShader">
+		precision highp float;
+		attribute vec3 position;
+		attribute vec3 normal;
+		
+		uniform mat4 projectionMatrix;
+		uniform mat4 modelViewMatrix;
+		
+		varying vec3 fNormal;
+
+		void main() {
+			vec4 vPosition = modelViewMatrix * vec4(position, 1.0);
+
+			gl_Position = projectionMatrix * vPosition;
+
+			fNormal = normal;
+		}
+	</script>
+
+	<!-- Fragment Shader -->
+	<script type="x-shader/x-fragment" id="fragShader">
+		precision highp float;
+		
+		varying vec3 fNormal;
+
+		void main() {
+			vec3 absNormalized = abs(normalize(fNormal));
+			gl_FragColor = vec4(absNormalized, 1.0);
+		}
+	</script>
+
+	<script src="https://threejs.org/build/three.min.js"></script>
+	<script src="https://threejs.org/examples/js/controls/OrbitControls.js"></script>
+	
+	<script src="maslych_js4.js" type="text/javascript"></script>
+	
+</body>
+	
+</html>
