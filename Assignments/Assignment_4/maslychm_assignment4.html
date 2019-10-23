@@ -14,8 +14,8 @@
 		attribute vec3 normal;
 		
 		uniform mat4 projectionMatrix;
-        uniform mat4 modelViewMatrix;
-        uniform mat3 normalMatrix;
+		uniform mat4 modelViewMatrix;
+		uniform mat3 normalMatrix;
 		
 		varying vec3 fNormal;
 
@@ -24,10 +24,10 @@
 
 			gl_Position = projectionMatrix * vPosition;
 
-            // The following two lines are identical for uniform scaling
-            // (because no normals were messed up) as normalMatrix is (modelViewMatrix^T)^(-1)
-            fNormal = (modelViewMatrix * vec4(normal, 0.0)).xyz;
-            //fNormal = normalMatrix * normal;
+			// The following two lines are identical for uniform scaling
+			// (because no normals were messed up) as normalMatrix is (modelViewMatrix^T)^(-1)
+			fNormal = (modelViewMatrix * vec4(normal, 0.0)).xyz;
+			//fNormal = normalMatrix * normal;
 		}
 	</script>
 
@@ -38,10 +38,10 @@
 		varying vec3 fNormal;
 
 		void main() {
-            vec3 absNormalized = normalize(fNormal);
+			vec3 absNormalized = normalize(fNormal);
 
-            // Instead of using absolute value
-            absNormalized = (absNormalized + 1.0) / 2.0;
+			// Instead of using absolute value
+			absNormalized = (absNormalized + 1.0) / 2.0;
 			gl_FragColor = vec4(absNormalized, 1.0);
 		}
 	</script>
