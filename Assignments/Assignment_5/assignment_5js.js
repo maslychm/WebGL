@@ -30,18 +30,6 @@ function initRenderer() {
 
 function initScene() {
     scene = new THREE.Scene();
-
-    let geometry = new THREE.SphereBufferGeometry();
-    let geometry2 = new THREE.TorusKnotBufferGeometry();
-    let material = new THREE.MeshNormalMaterial;
-    let object1 = new THREE.Mesh(geometry, material);
-    let object2 = new THREE.Mesh(geometry2, material);
-    // scene.add(object1);
-    // scene.add(object2);
-    // object1.position.set(1,1,1);
-    // object2.position.set(-1,-1,-1);
-    // sceneObjects.push(object1);
-    // sceneObjects.push(object2);
 }
 
 function initCamera() {
@@ -70,10 +58,7 @@ function eventHandlers() {
 
     window.addEventListener("keydown", event => {
         if (event.key == "w") {
-            // sceneObjects[0].visible = false;
-            // sceneObjects[1].visible = false;
             console.log(event.key);
-            console.log(sceneObjects[2]);
             render();
         }
     });
@@ -81,8 +66,6 @@ function eventHandlers() {
 
 function vertexShader() {
     return `
-        precision highp float;
-
         varying vec3 globalNormal;
 
         void main() {
@@ -97,29 +80,35 @@ function vertexShader() {
 
 function fragmentShader() {
     return `
-        precision highp float;
-
-        uniform vec3 skyLight;
-        uniform vec3 groundLight;
-        uniform vec3 up;
+        uniform vec3 _skyLight;
+        uniform vec3 _groundLight;
+        uniform vec3 _up;
+        uniform vec3 _materialColor;
 
         varying vec3 globalNormal;
+        varying vec4 color;
 
         void main() {
-            float w = (1.0 + dot(normalize(globalNormal), up)) / 2.0;
-            // float uIncidentLight = IncidentLight
-            // gl_FragColor = vec4(globalNormal, 1.0);
-            gl_FragColor = vec4(w,w,w,w);
+            float w = 0.5 * (1.0 + dot(normalize(globalNormal), _up));
+
+            vec3 uIncidentLight = w * _skyLight + (1.0 - w) * _groundLight;
+            vec3 uReflectedColor = uIncidentLight * _materialColor;
+
+            gl_FragColor = vec4(uReflectedColor, 1.0);
         }
     `
 }
 
 function applyShaders() {
+
+    let materialColor = new THREE.Color(1, .5, .5);
+
     let uniforms = {
         // inverseModel : {type : 'mat3', value: new THREE.ShaderMaterial()}
-        up : {type : 'vec3', value : new THREE.Vector3(0,1,0)},
-        skyLight : {type : 'vec3', value : new THREE.Color(1,1,1)},
-        groundLight : {type : 'vec3', value : new THREE.Color(0,0,0)}
+        _up : {type : 'vec3', value : new THREE.Vector3(0,1,0)},
+        _skyLight : {type : 'vec3', value : new THREE.Color(1,1,1)},
+        _groundLight : {type : 'vec3', value : new THREE.Color(0,0,0)},
+        _materialColor : {type : 'vec3', value : materialColor}
     }
 
     let geometry = new THREE.TorusKnotBufferGeometry();
@@ -129,8 +118,6 @@ function applyShaders() {
         fragmentShader: fragmentShader(),
         vertexShader: vertexShader()
     });
-
-    // let material2 = new THREE.MeshBasicMaterial();
 
     let mesh = new THREE.Mesh(geometry, material);
 
