@@ -7,7 +7,8 @@
    * Assignment 2 - Use **dat.GUI** to control lighting in the scene
    * Assignment 3 - Use **dat.GUI** for scaling, rotation and translation
    of an object in the scene
-   * Assignment 4 - GLSL Shader using absolute normalized position normal
+   * Assignment 4 - GLSL Shader equivalent to THREE.MeshNormalMaterial
+   * Assignment 5 - GLSL Shader for Hemisphere Lighting
 
 ## Running the code
 
