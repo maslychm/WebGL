@@ -4,6 +4,7 @@ let HEIGHT = window.innerHeight;
 let scene, camera, renderer;
 let cameraControls;
 let sceneObjects = [];
+let invTModelMatrix;
 
 init();
 render();
@@ -13,7 +14,6 @@ function init() {
     initScene();
     initCamera();
     eventHandlers();
-
     applyShaders();
 }
 
@@ -55,25 +55,26 @@ function eventHandlers() {
         camera.updateProjectionMatrix();
         render();
     });
-
-    window.addEventListener("keydown", event => {
-        if (event.key == "w") {
-            console.log(event.key);
-            render();
-        }
-    });
 }
 
 function vertexShader() {
     return `
+        uniform mat4 _invTModelMatrix;
+
         varying vec3 globalNormal;
+        varying vec2 vUV;
 
         void main() {
             vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
 
-            gl_Position = projectionMatrix * modelViewPosition;
+            // Temporary Solution
+            // globalNormal = vec3(modelMatrix * vec4(normal, 1.0));
+            vUV = uv;
 
-            globalNormal = vec3(modelMatrix * vec4(normal, 1.0));
+            // Apply Inverse Transpose Model Matrix (Model in Global space) to normal 
+            globalNormal = vec3(_invTModelMatrix * vec4(normal, 1.0));
+
+            gl_Position = projectionMatrix * modelViewPosition;
         }
     `
 }
@@ -84,15 +85,23 @@ function fragmentShader() {
         uniform vec3 _groundLight;
         uniform vec3 _up;
         uniform vec3 _materialColor;
+        uniform sampler2D _brick;
 
         varying vec3 globalNormal;
-        varying vec4 color;
+        varying vec2 vUV;
 
         void main() {
-            float w = 0.5 * (1.0 + dot(normalize(globalNormal), _up));
+            vec3 brickColor;
 
+            // Weight the amount of light from each side
+            float w = 0.5 * (1.0 + dot(normalize(globalNormal), normalize(_up)));
+
+            // Apply the light colors and combine with material
             vec3 uIncidentLight = w * _skyLight + (1.0 - w) * _groundLight;
             vec3 uReflectedColor = uIncidentLight * _materialColor;
+
+            // brickColor = texture2D(_brick,vUV).rgb;
+            //uReflectedColor = uIncidentLight * brickColor;
 
             gl_FragColor = vec4(uReflectedColor, 1.0);
         }
@@ -101,27 +110,31 @@ function fragmentShader() {
 
 function applyShaders() {
 
-    let materialColor = new THREE.Color(1, .5, .5);
+    let geometry = new THREE.TorusKnotBufferGeometry();
+    let mesh2 = new THREE.Mesh(geometry, new THREE.MeshNormalMaterial());
+
+    // Get ModelMatrix to inverse, transpose and apply to normal and shader
+    invTModelMatrix = new THREE.Matrix4();
+    invTModelMatrix.getInverse(mesh2.matrixWorld , false);
 
     let uniforms = {
-        // inverseModel : {type : 'mat3', value: new THREE.ShaderMaterial()}
         _up : {type : 'vec3', value : new THREE.Vector3(0,1,0)},
         _skyLight : {type : 'vec3', value : new THREE.Color(1,1,1)},
         _groundLight : {type : 'vec3', value : new THREE.Color(0,0,0)},
-        _materialColor : {type : 'vec3', value : materialColor}
+        _materialColor : {type : 'vec3', value : new THREE.Color(1, 0, 0)},
+        _invTModelMatrix : {type : 'mat4', value : invTModelMatrix.transpose()}, // Transpose 
+        _brick: {
+            type: "t",
+            value: new THREE.TextureLoader().load ("brick.jpg",function(texture){render();}) 
+        }
     }
 
-    let geometry = new THREE.TorusKnotBufferGeometry();
-    
     let material = new THREE.ShaderMaterial({
         uniforms: uniforms,
         fragmentShader: fragmentShader(),
         vertexShader: vertexShader()
     });
 
-    let mesh = new THREE.Mesh(geometry, material);
-
-    mesh.position.set(0,0,0);
-    scene.add(mesh);
-    sceneObjects.push(mesh);
+    mesh2 = new THREE.Mesh(geometry, material);
+    scene.add(mesh2);
 }
