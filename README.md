@@ -17,9 +17,11 @@
 #### The JavaScript code in Assignments and Project requires running on a server, as it loads an object from local files. Below are the simplest ways to run the code (assuming you cloned the repository)
 
    1) Using Visual Studio Code, install [Live Server Extension](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer) then open the `.html` file you want to view and run the extension. Atom and other code editors have their own extension for hosting a local sever.
+   
+   2) Using Chrome Browser, install [Web Server for Chrome](https://chrome.google.com/webstore/detail/web-server-for-chrome/ofhbbkphhbklhfoeikjpcbhemlocgigb?hl=en). Run the extension, pick the folder to be hosted and go to [http://127.0.0.1:8887/](http://127.0.0.1:8887/) by default.
 
-   2) Using Python 2, navigate to a wanted folder in command line, then run   
+   3) Using Python 2, navigate to a wanted folder in command line, then run   
    `python2 -m SimpleHTTPServer 8000`
    
-   3) Using Python 3, navigate to a wanted folder in command line, then run   
+   4) Using Python 3, navigate to a wanted folder in command line, then run   
    `python3 -m http.server 8000`
