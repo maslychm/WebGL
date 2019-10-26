@@ -3,7 +3,6 @@ let HEIGHT = window.innerHeight;
 
 let scene, camera, renderer;
 let cameraControls;
-let sceneObjects = [];
 let invTModelMatrix;
 
 init();
@@ -73,7 +72,7 @@ function vertexShader() {
 
         void main() {
 
-            // Calculate points in of model in world space
+            // Calculate points of model in world space
             vec4 modelViewPosition = modelViewMatrix * vec4(position, 1.0);
 
             // Get points for the texture
@@ -101,9 +100,9 @@ function fragmentShader() {
             // Weight the amount of light from each side
             float w = 0.5 * (1.0 + dot(normalize(globalNormal), normalize(_up)));
 
-            // Apply the light colors and combine with material
+            // Apply the light colors and combine with material            
             vec3 uIncidentLight = w * _skyLight + (1.0 - w) * _groundLight;
-            
+
             // Get the color of texture at a point
             vec3 concreteColor = texture2D(_concrete,vUV).rgb;
             
@@ -117,7 +116,7 @@ function fragmentShader() {
 
 function applyShaders() {
 
-    let geometry = new THREE.TorusKnotBufferGeometry();
+    let geometry = new THREE.SphereBufferGeometry(2, 32, 32);
     let mesh2 = new THREE.Mesh(geometry, new THREE.MeshNormalMaterial());
 
     // Get ModelMatrix to inverse, transpose and apply to normal and shader
@@ -126,7 +125,7 @@ function applyShaders() {
 
     let uniforms = {
         _up: { type: 'vec3', value: new THREE.Vector3(0, 1, 0) },
-        _skyLight: { type: 'vec3', value: new THREE.Color(1, 1, 1) },
+        _skyLight: { type: 'vec3', value: new THREE.Vector3(1, 1, 1) },
         _groundLight: { type: 'vec3', value: new THREE.Vector3(0, 1, 0) },
         _invTModelMatrix: { type: 'mat4', value: invTModelMatrix.transpose() }, // Transpose
         _concrete: {
