@@ -10,6 +10,10 @@
    * Assignment 4 - GLSL Shader equivalent to THREE.MeshNormalMaterial
    * Assignment 5 - GLSL Shader for Hemisphere Lighting
 
+### Screenshots
+![Assignment 4 - Normal Shader](https://github.com/maslychm/WebGL/Respository_resources/NormalShader.png)   
+![Assignment 5 - Semisphere Shader](https://github.com/maslychm/WebGL/Respository_resources/SphereHemisphereShader.png)
+
 ## Options for running the code
 
 #### For each Assignment or Project, you need all files in the folder to render the scene. Clone the entire repository, or download files one by one, make sure you have all files per Assignment. 
