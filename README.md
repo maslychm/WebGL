@@ -11,14 +11,11 @@
    * Assignment 5 - GLSL Shader for Hemisphere Lighting
 
 ### Screenshots
-![Assignment 4 - Normal Shader](https://github.com/maslychm/WebGL/blob/master/Respository_resources/NormalShader.png)
-![Assignment 5 - Semisphere Shader](https://github.com/maslychm/WebGL/blob/master/Respository_resources/SphereHemisphereShader.png)
-
-   1) Normal Shader using GLSL
-   2) Hemisphere Shader GLSL
-    
-![Assignment 4 - Normal Shader](https://github.com/maslychm/WebGL/respository_resources/NormalShader.png)   
-![Assignment 5 - Semisphere Shader](https://github.com/maslychm/WebGL/respository_resources/SphereHemisphereShader.png)
+1) Normal Shader using GLSL
+2) Hemisphere Shader GLSL
+ 
+![Assignment 4 - Normal Shader](https://github.com/maslychm/WebGL/blob/master/repository_resources/NormalShader.png)
+![Assignment 5 - Semisphere Shader](https://github.com/maslychm/WebGL/blob/master/respository_resources/SphereHemisphereShader.png)
 
 ## Options for running the code
 
