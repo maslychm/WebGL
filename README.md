@@ -14,8 +14,8 @@
 1) Normal Shader using GLSL
 2) Hemisphere Shader GLSL
  
-![Assignment 4 - Normal Shader](https://github.com/maslychm/WebGL/blob/master/Repository_resources/NormalShader.png)
-![Assignment 5 - Semisphere Shader](https://github.com/maslychm/WebGL/blob/master/Repository_resources/SphereHemisphereShader.png)
+![Assignment 4 - Normal Shader](https://github.com/maslychm/WebGL/blob/master/repository_resources/NormalShader.png)
+![Assignment 5 - Semisphere Shader](https://github.com/maslychm/WebGL/blob/master/repository_resources/SphereHemisphereShader.png)
 
 ## Options for running the code
 
